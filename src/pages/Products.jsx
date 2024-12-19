@@ -15,7 +15,7 @@ const Products = () => {
                 const productsList = snapshot.docs.map(doc => {
                     const data = doc.data();
                     return {
-                        id: data.id,
+                        id: doc.id,
                         ...data,
                     };
                 });
@@ -85,7 +85,7 @@ const Products = () => {
             title: 'Chỉnh sửa thông tin sản phẩm',
             html: `
                 <label>ID:</label><br>
-                    <span id="id">${item.id}</span>
+                    <input id="id" class="swal2-input" style="width: 80%;" disable value="${item.id}" /><br/>
                 <label>Tên sách:</label><br>
                     <input id="bookName" class="swal2-input" style="width: 80%;" value="${item.bookName}" /><br/>
                 <label>Thể loại</label><br>
@@ -105,20 +105,36 @@ const Products = () => {
             confirmButtonText: 'Lưu',
             cancelButtonText: 'Hủy',
             preConfirm: () => {
-                const id = Swal.getPopup().querySelector('#id').value;
-                const bookName = Swal.getPopup().querySelector('#bookName').value;
-                const category = Swal.getPopup().querySelector('#category').value;
-                const age = Swal.getPopup().querySelector('#age').value;
-                const price = parseInt(Swal.getPopup().querySelector('#price').value);
-                const author = Swal.getPopup().querySelector('#author').value;
-                const title = Swal.getPopup().querySelector('#title').value;
-                const image = Swal.getPopup().querySelector('#image').value;
-
+                const idElement = Swal.getPopup().querySelector('#id');
+                const bookNameElement = Swal.getPopup().querySelector('#bookName');
+                const categoryElement = Swal.getPopup().querySelector('#category');
+                const ageElement = Swal.getPopup().querySelector('#age');
+                const priceElement = Swal.getPopup().querySelector('#price');
+                const authorElement = Swal.getPopup().querySelector('#author');
+                const titleElement = Swal.getPopup().querySelector('#title');
+                const imageElement = Swal.getPopup().querySelector('#image');
+            
+                if (!idElement || !bookNameElement || !categoryElement || !ageElement || !priceElement || !authorElement || !titleElement || !imageElement) {
+                    Swal.showValidationMessage('Vui lòng điền đầy đủ thông tin');
+                    return false;
+                }
+            
+                const id = idElement.value;
+                const bookName = bookNameElement.value;
+                const category = categoryElement.value;
+                const age = ageElement.value;
+                const price = parseInt(priceElement.value);
+                const author = authorElement.value;
+                const title = titleElement.value;
+                const image = imageElement.value;
+            
                 return { id, bookName, category, age, author, price, title, image };
             }
         }).then(async (result) => {
+            console.log(result);
             if (result.isConfirmed) {
                 const updatedData = result.value;
+                
                 try {
                     // Cập nhật state
                     setProducts(products.map((prod) => (prod.id === item.id ? { ...prod, ...updatedData } : prod)));

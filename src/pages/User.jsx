@@ -80,24 +80,24 @@ const User = () => {
             html: 
                 `<div style="text-align: left; margin-bottom: 10px;">
                     <label style="display: block; font-weight: bold;">Tuổi</label>
-                    <input id="swal-input1" class="swal2-input" placeholder="Tuổi" style="width: 80%;">
+                    <input id="swal-input1" class="swal2-input" placeholder="Tuổi" style="width: 80%;" value="${item.age || ''}">
                 </div>` +
                 `<div style="text-align: left; margin-bottom: 10px;">
                     <label style="display: block; font-weight: bold;">Name</label>
-                    <input id="swal-input2" class="swal2-input" placeholder="Name" style="width: 80%;">
+                    <input id="swal-input2" class="swal2-input" placeholder="Name" style="width: 80%;" value="${item.name || ''}">
                 </div>` +
                 `<div style="text-align: left; margin-bottom: 10px;">
                     <label style="display: block; font-weight: bold;">Email</label>
-                    <input id="swal-input3" class="swal2-input" placeholder="Email" style="width: 80%;">
+                    <input id="swal-input3" class="swal2-input" placeholder="Email" style="width: 80%;" value="${item.email || ''}">
                 </div>`
             ,
             showCancelButton: true,
             confirmButtonText: 'Lưu',
             cancelButtonText: 'Hủy',
             preConfirm: () => {
-                const age = parseInt(Swal.getPopup().querySelector('swal-input1').value);
-                const displayName = Swal.getPopup().querySelector('swal-input2').value;
-                const email = Swal.getPopup().querySelector('swal-input3').value;
+                const age = parseInt(Swal.getPopup().querySelector('#swal-input1').value);
+                const displayName = Swal.getPopup().querySelector('#swal-input2').value;
+                const email = Swal.getPopup().querySelector('#swal-input3').value;
                 return { age, displayName, email };
             }
         }).then(async (result) => {
